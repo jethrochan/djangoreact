@@ -16,46 +16,58 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // value: '',
+      title: '',
+      description: '',
       todos: []
     };
   }
 
-  async componentDidMount () {
-    let url = 'http://localhost:4000/todo/';
+  url = 'http://localhost:4000/todo/';
 
-    // Axios API call.
-    axios.get(url)
+  async componentDidMount () {
+    axios.get(this.url)
       .then(response => {
-          // console.log(response);
           this.setState({ todos: [...response.data.results]})
       })
   }
 
-  handleChange = event => {
+  handleTitleChange = event => {
     event.preventDefault();
-    this.setState({ value: event.target.value })
+    this.setState({ title: event.target.value })
+  };
+
+  handleDescriptionChange = event => {
+    event.preventDefault();
+    this.setState({ description: event.target.value })
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    // call api with dynamic isbn and put it into our url
-    // const isbn = this.state.value;
-    let url = 'http://localhost:4000/todo/"';
 
-    // Axios API call.
-    axios.post(url)
+    // create request body
+    let body = {
+        title: this.state.title,
+        description: this.state.description
+    };
+
+    axios.post(this.url, body)
       .then(response => {
-        // const bookkey = 'ISBN:' + this.state.value;
-        // let title = response.data[bookkey].info_url;
-        // let imgurl = response.data[bookkey].thumbnail_url;
-        // let temp = title.split('/');
-        // title = temp[temp.length - 1];
-        // this.setState({
-        //   title,
-        //   imgurl
-        // });
-        console.log(response);
+        const id = response.data['id'];
+        const title = response.data['title'];
+        const description = response.data['description'];
+        const completed = response.data['completed'];
+
+        this.setState({
+          todos: [
+            ...this.state.todos,
+            {
+              id,
+              title,
+              description,
+              completed
+            }
+          ]
+        });
     })
   };
 
@@ -93,8 +105,12 @@ class App extends Component {
 
           <Form onSubmit={this.handleSubmit} style={{ textAlign: 'center' }}>
             <label>
-              Name:
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
+              Title:
+              <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
+            </label>
+            <label>
+              Description:
+              <input type="text" value={this.state.description} onChange={this.handleDescriptionChange} />
             </label>
             <input type="submit" value="Submit" />
           </Form>
