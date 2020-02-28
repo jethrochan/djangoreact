@@ -3,7 +3,7 @@ import './App.css';
 import axios from 'axios';
 
 // Bootstrap Resources
-import { Col, Row, Form, Button } from 'react-bootstrap'
+import { Col, Row, Form } from 'react-bootstrap'
 
 const containerFluidFull = {
   margin: '0 auto',
@@ -16,9 +16,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
-      imgurl: '',
-      title: '',
+      // value: '',
+      todos: []
     };
   }
 
@@ -28,7 +27,8 @@ class App extends Component {
     // Axios API call.
     axios.get(url)
       .then(response => {
-          console.log(response);
+          // console.log(response);
+          this.setState({ todos: [...response.data.results]})
       })
   }
 
@@ -62,14 +62,18 @@ class App extends Component {
   renderTodoList = () => (
       <div style={{ textAlign: 'center' }}>
           <h1>Todo List</h1>
-          {this.renderTodoItem()}
+          {
+            this.state.todos.map(todo => (
+                this.renderTodoItem(todo)
+          ))}
       </div>
   );
 
-  renderTodoItem = () => (
+  renderTodoItem = (todo) => (
       <Row>
-          <Col md={6} className="offset-md-3" style={{ backgroundColor: '#efefef' }}>
-            <p>TODO ITEM HERE</p>
+          <Col md={6} className="offset-md-3" style={{ backgroundColor: '#efefef', marginBottom: '20px' }}>
+              <h5><strong>{todo.title}</strong></h5>
+              <p>{todo.description}</p>
           </Col>
       </Row>
   );
