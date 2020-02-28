@@ -11,6 +11,13 @@ const containerFluidFull = {
   minHeight: '100%',
 };
 
+const todoBoxStyle = {
+  backgroundColor: '#efefef',
+  marginBottom: '20px',
+  border: '1px solid #8B8C8F',
+  padding: '3px'
+};
+
 class App extends Component {
 
   constructor(props) {
@@ -83,7 +90,7 @@ class App extends Component {
 
   renderTodoItem = (todo) => (
       <Row>
-          <Col md={6} className="offset-md-3" style={{ backgroundColor: '#efefef', marginBottom: '20px' }}>
+          <Col md={6} className="offset-md-3"  style={todoBoxStyle}>
               <h5><strong>{todo.title}</strong></h5>
               <p>{todo.description}</p>
           </Col>
@@ -92,7 +99,7 @@ class App extends Component {
 
   render () {
     return (
-      <div className="containerFluidFull">
+      <div style={containerFluidFull} >
 
           <link
             rel="stylesheet"
@@ -101,18 +108,24 @@ class App extends Component {
             crossOrigin="anonymous"
           />
 
-          <p style={{ textAlign: 'center' }}>Create a New Task</p>
-
+          <p style={{ textAlign: 'center' }}><strong>Create a New Task</strong></p>
+          <hr/>
           <Form onSubmit={this.handleSubmit} style={{ textAlign: 'center' }}>
-            <label>
-              Title:
-              <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
-            </label>
-            <label>
-              Description:
-              <input type="text" value={this.state.description} onChange={this.handleDescriptionChange} />
-            </label>
-            <input type="submit" value="Submit" />
+              <Row>
+                  <Col md={4} className="offset-md-2">
+                    <label>
+                        <strong>Title:</strong>
+                      <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
+                    </label>
+                  </Col>
+                <Col md={4}>
+                    <label>
+                        <strong>Description:</strong>
+                      <input type="text" value={this.state.description} onChange={this.handleDescriptionChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </Col>
+              </Row>
           </Form>
           {this.renderTodoList()}
       </div>
