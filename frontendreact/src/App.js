@@ -44,7 +44,7 @@ class App extends Component {
     let url = 'http://localhost:4000/todo/"';
 
     // Axios API call.
-    axios.get(url)
+    axios.post(url)
       .then(response => {
         // const bookkey = 'ISBN:' + this.state.value;
         // let title = response.data[bookkey].info_url;
