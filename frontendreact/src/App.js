@@ -5,10 +5,6 @@ import axios from 'axios';
 // Bootstrap Resources
 import { Col, Row, Form, Button } from 'react-bootstrap'
 
-// const marginTop = {
-//   marginTop: '50px'
-// };
-
 const containerFluidFull = {
   margin: '0 auto',
   width: '100%',
@@ -26,6 +22,16 @@ class App extends Component {
     };
   }
 
+  async componentDidMount () {
+    let url = 'http://localhost:4000/todo/';
+
+    // Axios API call.
+    axios.get(url)
+      .then(response => {
+          console.log(response);
+      })
+  }
+
   handleChange = event => {
     event.preventDefault();
     this.setState({ value: event.target.value })
@@ -34,21 +40,22 @@ class App extends Component {
   handleSubmit = event => {
     event.preventDefault();
     // call api with dynamic isbn and put it into our url
-    const isbn = this.state.value;
-    let url = 'https://openlibrary.org/api/books?bibkeys=ISBN:' + isbn + '&format=json';
+    // const isbn = this.state.value;
+    let url = 'http://localhost:4000/todo/"';
 
     // Axios API call.
     axios.get(url)
       .then(response => {
-        const bookkey = 'ISBN:' + this.state.value;
-        let title = response.data[bookkey].info_url;
-        let imgurl = response.data[bookkey].thumbnail_url;
-        let temp = title.split('/');
-        title = temp[temp.length - 1];
-        this.setState({
-          title,
-          imgurl
-        });
+        // const bookkey = 'ISBN:' + this.state.value;
+        // let title = response.data[bookkey].info_url;
+        // let imgurl = response.data[bookkey].thumbnail_url;
+        // let temp = title.split('/');
+        // title = temp[temp.length - 1];
+        // this.setState({
+        //   title,
+        //   imgurl
+        // });
+        console.log(response);
     })
   };
 
